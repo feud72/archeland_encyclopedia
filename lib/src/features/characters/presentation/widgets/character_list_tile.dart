@@ -10,31 +10,52 @@ class CharacterListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(character.name),
-      subtitle: Text(character.job ?? ""),
-      trailing: SizedBox(
-          child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(character.weaponType ?? ""),
-          character.weaponType != null
-              ? VerticalDivider(
-                  color: Colors.grey.shade300,
-                )
-              : const SizedBox.shrink(),
-          SizedBox(
-            width: 16.0,
-            height: 16.0,
-            child: character.element != null
-                ? ColoredBox(
-                    color: elementColor[character.element]!.withOpacity(0.5),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.transparent,
+                elementColor[character.element]!.withAlpha(70),
+              ])),
+      child: ListTile(
+        title: Text(character.name),
+        subtitle: Text(character.uniqueSkill?.name ?? ""),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 64.0,
+              child: character.job != null
+                  ? Center(child: Text(character.job ?? ""))
+                  : const SizedBox.shrink(),
+            ),
+            character.job != null
+                ? VerticalDivider(
+                    color: Colors.grey.shade300,
                   )
                 : const SizedBox.shrink(),
-          ),
-        ],
-      )),
-      onTap: onTap,
+            SizedBox(
+              width: 72.0,
+              child: Center(child: Text(character.weaponType ?? "")),
+            ),
+            character.weaponType != null
+                ? VerticalDivider(
+                    color: Colors.grey.shade300,
+                  )
+                : const SizedBox.shrink(),
+            SizedBox(
+              width: 64.0,
+              child: character.rank != null
+                  ? Center(child: Text(character.rank ?? ""))
+                  : const SizedBox.shrink(),
+            ),
+          ],
+        ),
+        onTap: onTap,
+      ),
     );
   }
 }

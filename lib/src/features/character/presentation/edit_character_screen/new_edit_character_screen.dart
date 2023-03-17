@@ -5,7 +5,7 @@ import 'package:archeland_encyclopedia/src/features/character/presentation/edit_
 import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_status_provider.dart';
 import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/widgets/edit_basic_info_form_widget.dart';
 import 'package:archeland_encyclopedia/src/features/characters/data/characters_repository.dart';
-import 'package:archeland_encyclopedia/utils/async_value_ui.dart';
+import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

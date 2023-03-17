@@ -1,10 +1,10 @@
 import 'package:archeland_encyclopedia/src/common_widgets/action_text_button.dart';
+import 'package:archeland_encyclopedia/src/common_widgets/alert_dialogs.dart';
 import 'package:archeland_encyclopedia/src/common_widgets/avatar.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:archeland_encyclopedia/src/features/authentication/presentation/account_screen_controller.dart';
+import 'package:archeland_encyclopedia/src/features/authentication/presentation/account/account_screen_controller.dart';
 import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
-import 'package:archeland_encyclopedia/utils/alert_dialogs.dart';
-import 'package:archeland_encyclopedia/utils/async_value_ui.dart';
+import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

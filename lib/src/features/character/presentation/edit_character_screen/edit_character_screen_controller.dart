@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:archeland_encyclopedia/src/database/firebase/firestore_data_source.dart';
 import 'package:archeland_encyclopedia/src/exceptions/character_submit_exception.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/special_skill.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_status_provider.dart';
 import 'package:archeland_encyclopedia/src/features/characters/data/characters_repository.dart';
-import 'package:archeland_encyclopedia/src/features/characters/domain/special_skill.dart';
-import 'package:archeland_encyclopedia/src/features/characters/presentation/edit_character_screen/edit_character_status_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'edit_character_screen_controller.g.dart';
@@ -82,21 +82,31 @@ class EditCharacterScreenController extends _$EditCharacterScreenController {
       // final id = character?.id ?? documentIdFromCurrentDate();
       final id = documentIdFromCurrentDate();
       final updated = Character(
-          id: id,
-          name: characterStatus.name!,
-          rank: characterStatus.rank,
-          job: characterStatus.job,
-          element: characterStatus.element,
-          weaponType: characterStatus.weaponType,
-          hp: characterStatus.hp,
-          pAtk: characterStatus.pAtk,
-          mAtk: characterStatus.mAtk,
-          pDef: characterStatus.pDef,
-          mDef: characterStatus.mDef,
-          concentration: characterStatus.concentration,
-          uniqueSkill: SpecialSkill(
-              name: characterStatus.uniqueSkillName,
-              description: characterStatus.uniqueSkillDescription));
+        id: id,
+        name: characterStatus.name!,
+        rank: characterStatus.rank,
+        job: characterStatus.job,
+        element: characterStatus.element,
+        weaponType: characterStatus.weaponType,
+        hp: characterStatus.hp,
+        pAtk: characterStatus.pAtk,
+        mAtk: characterStatus.mAtk,
+        pDef: characterStatus.pDef,
+        mDef: characterStatus.mDef,
+        concentration: characterStatus.concentration,
+        uniqueSkill: characterStatus.uniqueSkillName != null
+            ? SpecialSkill(
+                name: characterStatus.uniqueSkillName,
+                description: characterStatus.uniqueSkillDescription)
+            : null,
+        leaderSkill: characterStatus.leaderSkillName != null &&
+                characterStatus.leaderSkillName!.isNotEmpty
+            ? SpecialSkill(
+                name: characterStatus.leaderSkillName,
+                description: characterStatus.leaderSkillDescription)
+            : null,
+      );
+
       state = await AsyncValue.guard(
         // () => database.setCharacter(character: updated, uid: currentUser.uid),
         () => database.setCharacter(character: updated, uid: ""),

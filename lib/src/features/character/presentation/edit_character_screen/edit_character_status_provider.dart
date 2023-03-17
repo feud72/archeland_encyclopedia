@@ -19,6 +19,8 @@ class CharacterStatus {
   String? pDef;
   String? mDef;
   String? concentration;
+  String? leaderSkillName;
+  String? leaderSkillDescription;
 }
 
 // Todo: 나중에 건드려 보자. 너무 어렵다

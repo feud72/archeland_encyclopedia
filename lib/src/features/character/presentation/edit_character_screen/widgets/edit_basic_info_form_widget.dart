@@ -1,8 +1,8 @@
 import 'package:archeland_encyclopedia/src/constants/color_schemes.dart';
 import 'package:archeland_encyclopedia/src/constants/terms_in_game.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
-import 'package:archeland_encyclopedia/src/features/characters/presentation/edit_character_screen/edit_character_screen_controller.dart';
-import 'package:archeland_encyclopedia/src/features/characters/presentation/edit_character_screen/edit_character_status_provider.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_screen_controller.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

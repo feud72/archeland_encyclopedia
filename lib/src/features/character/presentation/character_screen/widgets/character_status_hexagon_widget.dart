@@ -5,20 +5,20 @@ import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 
 final maxStatus = [
-  2000,
+  1900,
   240,
   1200,
   1200,
-  5000,
-  2000,
+  4500,
+  1900,
 ];
 final minStatus = [
-  1000,
+  900,
   40,
   200,
   200,
   2000,
-  1000,
+  900,
 ];
 final angleMul = [7, 9, 1, 3, 5, 7];
 final statusPropertyList = [

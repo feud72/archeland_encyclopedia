@@ -1,10 +1,11 @@
 import 'dart:math';
 
+import 'package:archeland_encyclopedia/src/common_widgets/primary_button.dart';
 import 'package:archeland_encyclopedia/src/constants/keys.dart';
-import 'package:archeland_encyclopedia/utils/async_value_ui.dart';
+import 'package:archeland_encyclopedia/src/features/authentication/presentation/sign_in/sign_in_screen_controller.dart';
+import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
@@ -39,7 +40,7 @@ class SignInScreen extends ConsumerWidget {
                   child: state.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : const Text(
-                          Strings.signIn,
+                          "로그인",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 32.0, fontWeight: FontWeight.w600),
@@ -48,21 +49,23 @@ class SignInScreen extends ConsumerWidget {
                 const SizedBox(height: 32.0),
                 PrimaryButton(
                   key: emailPasswordButtonKey,
-                  text: Strings.signInWithEmailPassword,
+                  text: "구글 계정으로 로그인",
                   onPressed: state.isLoading
                       ? null
-                      : () => context.goNamed(AppRoute.emailPassword.name),
+                      : () => ref
+                          .read(signInScreenControllerProvider.notifier)
+                          .signInWithCredential(),
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  Strings.or,
+                  "또는",
                   style: TextStyle(fontSize: 14.0, color: Colors.black87),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 PrimaryButton(
                   key: anonymousButtonKey,
-                  text: Strings.goAnonymous,
+                  text: "비회원으로 진행",
                   onPressed: state.isLoading
                       ? null
                       : () => ref

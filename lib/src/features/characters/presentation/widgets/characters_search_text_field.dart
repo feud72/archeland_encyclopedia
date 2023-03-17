@@ -1,4 +1,4 @@
-import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_screen/characters_search_state_provider.dart';
+import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_search_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

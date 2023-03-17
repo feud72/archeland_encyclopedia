@@ -43,13 +43,6 @@ class RuneRepository {
         fourPiecesEffect: '주변 3칸 이내 아군이 없을 시 HP 외의 모든 능력치 8% 증가',
       ),
       const Rune(
-        name: '망령 기사',
-        type: '물리',
-        twoPiecesEffect: 'HP +5%',
-        fourPiecesEffect: '''아군 사망 시 [영혼의 힘] 획득.
-[영혼의 힘] : 공격 및 방어 능력치 +5%(최대 4단계)''',
-      ),
-      const Rune(
         name: '전투마',
         type: '물리',
         twoPiecesEffect: 'HP +5%',
@@ -68,7 +61,56 @@ class RuneRepository {
         twoPiecesEffect: 'HP +5%',
         fourPiecesEffect: '치유 효과 +20%',
       ),
-    ];
+      const Rune(
+        name: '세계수',
+        type: '마법',
+        twoPiecesEffect: 'HP +5%',
+        fourPiecesEffect: '아군에게 스킬 사용 후 40% 확률로 대상이 랜덤 [버프] 1개 획득.',
+      ),
+      const Rune(
+        name: '설송',
+        type: '마법',
+        twoPiecesEffect: 'HP +5%',
+        fourPiecesEffect:
+            '''액티브 공격 시 [전투 전] 50% 확률로 대상에게 [둔화II] 및 [마력 침식] 상태 부여. 1턴간 지속
+[둔화II] : 이동력 -2. 호위 불가.
+[마력 침식] : 마법 방어력 -30%''',
+      ),
+      const Rune(
+        name: '우로보로스',
+        type: '마법',
+        twoPiecesEffect: 'HP +5%',
+        fourPiecesEffect: '''액티브 공격으로 피해를 가할 시 [전투 후] [중독] 상태를 부여. 1턴간 지속
+[중독] : 행동 종료 시 HP를 5% 잃고 1칸 이동할 때마다 추가로 HP를 5%를 잃음(최대 15%)''',
+      ),
+      const Rune(
+        name: '구리 지팡이',
+        type: '마법',
+        twoPiecesEffect: '마법 공격력 +5%',
+        fourPiecesEffect: '스킬 사용 시 가하는 피해 10% 증가. 범위 스킬 사용 시 가하는 피해 추가로 5% 증가',
+      ),
+      const Rune(
+        name: '마법의 눈',
+        type: '마법',
+        twoPiecesEffect: '마법 공격력 +5%',
+        fourPiecesEffect: '피해를 가한 후 50% 확률로 대상에게 1개의 랜덤 [디버프] 부여.',
+      ),
+      const Rune(
+        name: '모래시계',
+        type: '마법',
+        twoPiecesEffect: '마법 관통 +5%',
+        fourPiecesEffect: '피해 스킬을 사용할 때마다 50% 확률로 해당 스킬 쿨타임 2 감소',
+      ),
+      const Rune(
+        name: '망령 기사',
+        type: '물리',
+        twoPiecesEffect: 'HP +5%',
+        fourPiecesEffect: '''아군 사망 시 [영혼의 힘] 획득.
+[영혼의 힘] : 공격 및 방어 능력치 +5%(최대 4단계)''',
+      ),
+    ]..sort(
+        (a, b) => a.name.compareTo(b.name),
+      );
   }
 
   static RuneType getRuneType(int index, String type) {
@@ -86,53 +128,132 @@ class RuneRepository {
     switch (index) {
       case 1:
         return RuneType(
-            firstStatus: '$type 공격력 280',
+            firstStatus: ['$type 공격력 280'],
             secondStatus: null,
             attackOption: isTypeP ? pAttackOption : mAttackOption,
             defensiveOption: defensiveOption,
             attackOptionMax: 9,
             defensiveOptionMax: 3);
       case 2:
-        return RuneType(
-            firstStatus: '마법 방어력 ${isTypeP ? 160 : 180}',
-            secondStatus: null,
-            attackOption: isTypeP ? pAttackOption : mAttackOption,
-            defensiveOption: defensiveOption,
-            attackOptionMax: 3,
-            defensiveOptionMax: 9);
+        return isTypeP
+            ? const RuneType(
+                firstStatus: ['마법 방어력 160'],
+                secondStatus: null,
+                attackOption: pAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 3,
+                defensiveOptionMax: 9)
+            : const RuneType(
+                firstStatus: ['마법 방어력 180'],
+                secondStatus: null,
+                attackOption: mAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 3,
+                defensiveOptionMax: 9);
       case 3:
-        return RuneType(
-            firstStatus: '물리 방어력 ${isTypeP ? 200 : 140}',
-            secondStatus: null,
-            attackOption: isTypeP ? pAttackOption : mAttackOption,
-            defensiveOption: defensiveOption,
-            attackOptionMax: 3,
-            defensiveOptionMax: 9);
+        return isTypeP
+            ? const RuneType(
+                firstStatus: ['물리 방어력 200'],
+                secondStatus: null,
+                attackOption: pAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 3,
+                defensiveOptionMax: 9)
+            : const RuneType(
+                firstStatus: ['물리 방어력 140'],
+                secondStatus: null,
+                attackOption: mAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 3,
+                defensiveOptionMax: 9);
       case 4:
-        return RuneType(
-            firstStatus: '$type 공격력 280',
-            secondStatus: '마법 방어력 ${isTypeP ? 160 : 180}',
-            attackOption: isTypeP ? pAttackOption : mAttackOption,
-            defensiveOption: defensiveOption,
-            attackOptionMax: 6,
-            defensiveOptionMax: 6);
+        return isTypeP
+            ? const RuneType(
+                firstStatus: [
+                    '체력 580',
+                    '물리 공격력 120',
+                    '물리 방어력 100',
+                    '마법 방어력 80'
+                  ],
+                secondStatus: null,
+                attackOption: pAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 6,
+                defensiveOptionMax: 6)
+            : const RuneType(
+                firstStatus: [
+                    '체력 420',
+                    '마법 공격력 120',
+                    '물리 방어력 80',
+                    '마법 방어력 100'
+                  ],
+                secondStatus: null,
+                attackOption: mAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 6,
+                defensiveOptionMax: 6);
       case 5:
-        return RuneType(
-            firstStatus: '체력 ${isTypeP ? 580 : 420}',
-            secondStatus:
-                '$type 공격력 120, 물리 방어력 ${isTypeP ? 100 : 80}, 마법 방어력 ${isTypeP ? 80 : 100}, 집중력 200',
-            attackOption: isTypeP ? pAttackOption : mAttackOption,
-            defensiveOption: defensiveOption,
-            attackOptionMax: 9,
-            defensiveOptionMax: 3);
+        return isTypeP
+            ? const RuneType(
+                firstStatus: [
+                    '체력 580'
+                  ],
+                secondStatus: [
+                    '물리 공격력 120',
+                    '물리 방어력 100',
+                    '마법 방어력 80',
+                    '집중력 200',
+                  ],
+                attackOption: pAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 9,
+                defensiveOptionMax: 3)
+            : const RuneType(
+                firstStatus: [
+                    '체력 420'
+                  ],
+                secondStatus: [
+                    '마법 공격력 120',
+                    '물리 방어력 80',
+                    '마법 방어력 100',
+                    '집중력 200',
+                  ],
+                attackOption: mAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 9,
+                defensiveOptionMax: 3);
+
       case 6:
-        return RuneType(
-            firstStatus: '$type 공격력 280',
-            secondStatus: '마법 방어력 ${type == '물리' ? 160 : 180}',
-            attackOption: type == '물리' ? pAttackOption : mAttackOption,
-            defensiveOption: defensiveOption,
-            attackOptionMax: 6,
-            defensiveOptionMax: 6);
+        return isTypeP
+            ? const RuneType(
+                firstStatus: [
+                    '체력 580'
+                  ],
+                secondStatus: [
+                    '물리 공격력 120',
+                    '물리 방어력 100',
+                    '마법 방어력 80',
+                    '집중력 저항 300',
+                  ],
+                attackOption: pAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 6,
+                defensiveOptionMax: 6)
+            : const RuneType(
+                firstStatus: [
+                    '체력 420'
+                  ],
+                secondStatus: [
+                    '마법 공격력 120',
+                    '물리 방어력 80',
+                    '마법 방어력 100',
+                    '집중력 300',
+                  ],
+                attackOption: mAttackOption,
+                defensiveOption: defensiveOption,
+                attackOptionMax: 6,
+                defensiveOptionMax: 6);
+
       default:
         throw Exception('에러');
     }

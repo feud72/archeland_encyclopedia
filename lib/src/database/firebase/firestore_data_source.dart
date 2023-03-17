@@ -7,8 +7,8 @@ String documentIdFromCurrentDate() {
 }
 
 class FirestorePath {
-  static String character(String id) => 'heroes/$id';
-  static String characters() => 'heroes';
+  static String character(String id) => 'characters/$id';
+  static String characters() => 'characters';
 }
 
 class FirestoreDataSource {
