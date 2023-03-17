@@ -41,3 +41,21 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/runes/검투사.png
+    - assets/images/runes/괴물늑대.png
+    - assets/images/runes/구리지팡이.png
+    - assets/images/runes/드래곤.png
+    - assets/images/runes/마법의눈.png
+    - assets/images/runes/망령기사.png
+    - assets/images/runes/모래시계.png
+    - assets/images/runes/설송.png
+    - assets/images/runes/성검.png
+    - assets/images/runes/세계수.png
+    - assets/images/runes/우로보로스.png
+    - assets/images/runes/전투도끼.png
+    - assets/images/runes/전투마.png
+    - assets/images/runes/진정한십자가.png
+    - assets/images/runes/카이트실드.png
+    - assets/images/runes/흡혈귀.png

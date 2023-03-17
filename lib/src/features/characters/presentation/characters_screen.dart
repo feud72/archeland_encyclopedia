@@ -37,9 +37,13 @@ class CharactersScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          mini: true,
-          onPressed: () => context.goNamed(AppRoute.addCharacter.name),
-          child: const Icon(Icons.add)),
+        mini: true,
+        onPressed: () => context.goNamed(AppRoute.addCharacter.name),
+        child: Icon(
+          Icons.add,
+          color: Colors.grey.shade700,
+        ),
+      ),
     );
   }
 }

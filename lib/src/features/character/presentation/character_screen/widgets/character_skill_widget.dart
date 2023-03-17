@@ -1,3 +1,5 @@
+import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtile.dart';
+import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/skill.dart';
 import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/widgets/edit_skill_modal_bottomsheet.dart';
 import 'package:flutter/material.dart';
@@ -18,37 +20,36 @@ class CharacterSkillWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        BuildSkillTitleWidget(title: title, level: level),
+        BuildSkillTileWidget(skill: skill, position: position),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: CustomDivider(),
+        ),
+      ],
+    );
+  }
+}
+
+class BuildSkillTitleWidget extends StatelessWidget {
+  const BuildSkillTitleWidget({Key? key, required this.title, this.level})
+      : super(key: key);
+
+  final String title;
+  final int? level;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-      child: Column(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium),
-              Text("Lv. ${level != null ? level.toString() : "조건 없음"}",
-                  style: Theme.of(context).textTheme.titleSmall),
-            ],
-          ),
-          Container(
-            constraints: const BoxConstraints(minHeight: 100),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.0),
-                color: Colors.white.withOpacity(0.3)),
-            child: skill != null
-                ? BuildSkillTileWidget(skill: skill)
-                : Center(
-                    child: ListTile(
-                      title: const Text("스킬 정보가 없습니다."),
-                      subtitle: const Text("스킬 정보를 추가해 주세요."),
-                      trailing: IconButton(
-                          onPressed: () => showEditingSkillBottomSheet(
-                                context: context,
-                                position: position,
-                              ),
-                          icon: const Icon(Icons.edit)),
-                    ),
-                  ),
+          Text(title, style: Theme.of(context).textTheme.bodyLarge),
+          Text(
+            "Lv. ${level != null ? level.toString() : "조건 없음"}",
           ),
         ],
       ),
@@ -60,50 +61,56 @@ class BuildSkillTileWidget extends StatelessWidget {
   const BuildSkillTileWidget({
     super.key,
     required this.skill,
+    required this.position,
   });
 
   final Skill? skill;
+  final String position;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListTile(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(skill?.name ?? ""),
-            Text("◆" * (skill?.cost ?? 0)),
-          ],
-        ),
-        subtitle: Column(
-          children: [
-            Row(
+    return skill != null
+        ? ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                skill?.type != null
-                    ? Expanded(child: Text('유형 : ${skill?.type}'))
-                    : const SizedBox.shrink(),
-                skill?.coolTime != null
-                    ? Expanded(child: Text('쿨타임 : ${skill?.coolTime}'))
-                    : const SizedBox.shrink(),
+                Text(skill?.name ?? ""),
+                Text("◆" * (skill?.cost ?? 0)),
               ],
             ),
-            Row(
+            subtitle: Column(
               children: [
-                skill?.range != null
-                    ? Expanded(child: Text('사정거리 : ${skill?.range}'))
-                    : const SizedBox.shrink(),
-                skill?.radius != null
-                    ? Expanded(child: Text('범위 : ${skill?.radius}'))
-                    : const SizedBox.shrink(),
+                Row(
+                  children: [
+                    skill?.type != null
+                        ? Expanded(child: Text('유형 : ${skill?.type}'))
+                        : const SizedBox.shrink(),
+                    skill?.coolTime != null
+                        ? Expanded(child: Text('쿨타임 : ${skill?.coolTime}'))
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+                Row(
+                  children: [
+                    skill?.range != null
+                        ? Expanded(child: Text('사정거리 : ${skill?.range}'))
+                        : const SizedBox.shrink(),
+                    skill?.radius != null
+                        ? Expanded(child: Text('범위 : ${skill?.radius}'))
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+                const CustomTransparentDivider(),
+                Text(skill?.description ?? ""),
               ],
             ),
-            const Divider(
-              color: Colors.transparent,
-            ),
-            Text(skill?.description ?? ""),
-          ],
-        ),
-      ),
-    );
+          )
+        : AskingEditingListTile(
+            onTap: () => showEditingSkillBottomSheet(
+                  context: context,
+                  position: position,
+                ),
+            title: "스킬 정보가 없습니다.",
+            subtitle: "데이터를 입력해 주세요.");
   }
 }

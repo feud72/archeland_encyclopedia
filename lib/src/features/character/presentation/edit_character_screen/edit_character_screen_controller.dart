@@ -94,7 +94,8 @@ class EditCharacterScreenController extends _$EditCharacterScreenController {
         pDef: characterStatus.pDef,
         mDef: characterStatus.mDef,
         concentration: characterStatus.concentration,
-        uniqueSkill: characterStatus.uniqueSkillName != null
+        uniqueSkill: characterStatus.uniqueSkillName != null &&
+                characterStatus.uniqueSkillName!.isNotEmpty
             ? SpecialSkill(
                 name: characterStatus.uniqueSkillName,
                 description: characterStatus.uniqueSkillDescription)

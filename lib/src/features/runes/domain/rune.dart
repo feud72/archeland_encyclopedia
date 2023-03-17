@@ -8,6 +8,7 @@ class Rune with _$Rune {
   const factory Rune({
     required String name,
     required String type,
+    required String? image,
     required String twoPiecesEffect,
     required String fourPiecesEffect,
   }) = _Rune;

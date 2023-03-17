@@ -82,27 +82,44 @@ class CharacterStatusHexagonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints:
-          BoxConstraints(maxWidth: screenWidth, maxHeight: screenWidth),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Labels(diameter: diameter, radius: radius, character: character),
-          CustomPaint(
-            painter: HexagonPainter(radius: radius),
-          ),
-          CustomPaint(
-            painter: CharacterHexagonPainter(
-              color: Colors.red,
-              character: character,
-              radius: radius,
-              isBold: true,
+    final bool isDrawble = character.hp != null &&
+        character.pAtk != null &&
+        character.mAtk != null &&
+        character.pDef != null &&
+        character.mDef != null &&
+        character.concentration != null;
+    return isDrawble
+        ? ConstrainedBox(
+            constraints:
+                BoxConstraints(maxWidth: screenWidth, maxHeight: screenWidth),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Labels(
+                    diameter: diameter, radius: radius, character: character),
+                CustomPaint(
+                  painter: HexagonPainter(radius: radius),
+                ),
+                CustomPaint(
+                  painter: CharacterHexagonPainter(
+                    color: Colors.red,
+                    character: character,
+                    radius: radius,
+                    isBold: true,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                "문제가 발생하여 그래프를 그릴 수 없습니다.",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+          );
   }
 }
 

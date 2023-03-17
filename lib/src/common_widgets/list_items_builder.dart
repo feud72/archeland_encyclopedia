@@ -20,8 +20,11 @@ class ListItemsBuilder<T> extends StatelessWidget {
       data: (items) => items.isNotEmpty
           ? ListView.separated(
               itemCount: items.length + 2,
-              separatorBuilder: (context, index) =>
-                  Divider(color: Colors.grey.shade300, height: 0.5),
+              separatorBuilder: (context, index) => Divider(
+                indent: 0,
+                height: 1,
+                color: Colors.grey.withOpacity(0.3),
+              ),
               itemBuilder: (context, index) {
                 if (index == 0 || index == items.length + 1) {
                   return const SizedBox.shrink();

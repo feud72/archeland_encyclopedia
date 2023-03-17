@@ -1,4 +1,4 @@
-import 'package:archeland_encyclopedia/src/features/artifacts/presentation/artifacts_main/artifacts_main_screen.dart';
+import 'package:archeland_encyclopedia/src/features/artifacts/presentation/artifacts_screen.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/presentation/account/account_screen.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/presentation/sign_in/sign_in_screen.dart';
@@ -118,7 +118,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               name: AppRoute.artifacts.name,
               pageBuilder: (context, state) => NoTransitionPage(
                 key: state.pageKey,
-                child: const ArtifactsMainScreen(),
+                child: const ArtifactsScreen(),
               ),
               // routes: [],
             ),

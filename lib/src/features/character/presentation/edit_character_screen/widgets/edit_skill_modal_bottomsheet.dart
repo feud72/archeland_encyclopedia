@@ -54,9 +54,34 @@ class _EditSkillFormState extends State<EditSkillForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      "스킬 입력",
-                      style: Theme.of(context).textTheme.titleLarge,
+                    Row(
+                      children: [
+                        Text(
+                          "스킬 입력",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const Expanded(child: SizedBox()),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => context.pop(),
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.red),
+                              child: const Text("취소"),
+                            ),
+                            const SizedBox(width: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                //Todo: submit 기능
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.indigo),
+                              child: const Text("제출"),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     _divider(),
                     TextFormField(
@@ -383,31 +408,6 @@ class _EditSkillFormState extends State<EditSkillForm> {
                       ),
                       keyboardAppearance: Brightness.light,
                       onSaved: (value) => description = value,
-                    ),
-                    _divider(),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () => context.pop(),
-                            style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.red),
-                            child: const Text("취소"),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              //Todo: submit 기능
-                            },
-                            style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.indigo),
-                            child: const Text("제출"),
-                          ),
-                        ),
-                      ],
                     ),
                     _divider(),
                   ],

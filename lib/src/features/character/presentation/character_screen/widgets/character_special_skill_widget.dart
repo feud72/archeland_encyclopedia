@@ -1,18 +1,20 @@
 import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtile.dart';
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
-import 'package:archeland_encyclopedia/src/features/artifacts/domain/weapon.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/special_skill.dart';
 import 'package:flutter/material.dart';
 
-class CharacterWeaponWidget extends StatelessWidget {
-  const CharacterWeaponWidget({Key? key, required this.title, this.weapon})
-      : super(key: key);
-
+class CharacterSpecialSkillWidget extends StatelessWidget {
+  const CharacterSpecialSkillWidget({
+    Key? key,
+    required this.skill,
+    required this.title,
+  }) : super(key: key);
   final String title;
-  final Weapon? weapon;
+  final SpecialSkill? skill;
 
   @override
   Widget build(BuildContext context) {
-    return weapon != null
+    return skill != null
         ? Padding(
             padding:
                 const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
@@ -24,7 +26,7 @@ class CharacterWeaponWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      weapon!.name,
+                      skill!.name ?? "",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(title),
@@ -32,24 +34,7 @@ class CharacterWeaponWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  '[${weapon!.effectName}]',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  weapon!.effectDescription,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  weapon!.uniqueEffectDescription != null
-                      ? '[${weapon!.uniqueEffectName}]'
-                      : "",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  weapon!.uniqueEffectDescription != null
-                      ? "${weapon!.uniqueEffectDescription}"
-                      : "",
+                  skill!.description ?? "(알 수 없음)",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -63,7 +48,7 @@ class CharacterWeaponWidget extends StatelessWidget {
               ),
               AskingEditingListTile(
                   onTap: () {
-                    //Todo : 전용 무기 입력 폼 작성
+                    //Todo: 리더 스킬 및 특성 입력 폼 작성
                   },
                   title: "$title 정보가 없습니다.",
                   subtitle: "데이터를 입력해 주세요."),

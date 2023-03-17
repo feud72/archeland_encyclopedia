@@ -1,3 +1,4 @@
+import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
 import 'package:archeland_encyclopedia/src/constants/color_schemes.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
 import 'package:flutter/material.dart';
@@ -33,18 +34,14 @@ class CharacterListTile extends StatelessWidget {
                   : const SizedBox.shrink(),
             ),
             character.job != null
-                ? VerticalDivider(
-                    color: Colors.grey.shade300,
-                  )
+                ? const CustomVerticalDivider()
                 : const SizedBox.shrink(),
             SizedBox(
               width: 72.0,
               child: Center(child: Text(character.weaponType ?? "")),
             ),
             character.weaponType != null
-                ? VerticalDivider(
-                    color: Colors.grey.shade300,
-                  )
+                ? const CustomVerticalDivider()
                 : const SizedBox.shrink(),
             SizedBox(
               width: 64.0,
