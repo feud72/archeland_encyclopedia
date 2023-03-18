@@ -1,6 +1,5 @@
 import 'package:archeland_encyclopedia/firebase_options.dart';
 import 'package:archeland_encyclopedia/src/app.dart';
-import 'package:archeland_encyclopedia/src/database/local/sembast_repository.dart';
 import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,10 +13,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   const Settings(persistenceEnabled: true);
   MobileAds.instance.initialize();
-  final localRepository = await LocalRepository.makeDefault();
+  // final localRepository = await LocalRepository.makeDefault();
   final container = ProviderContainer(
     overrides: [
-      localRepositoryProvider.overrideWithValue(localRepository),
+      // localRepositoryProvider.overrideWithValue(localRepository),
     ],
   );
   runApp(UncontrolledProviderScope(
