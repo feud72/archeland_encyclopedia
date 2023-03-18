@@ -47,7 +47,6 @@ class CharacterScreen extends ConsumerWidget {
                   ),
                 ),
                 body: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     CharacterStatusWidget(character: character),
                     CharacterBasicInfoWidget(character: character),

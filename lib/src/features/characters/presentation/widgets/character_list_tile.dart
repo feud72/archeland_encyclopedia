@@ -37,13 +37,6 @@ class CharacterListTile extends StatelessWidget {
                 ? const CustomVerticalDivider()
                 : const SizedBox.shrink(),
             SizedBox(
-              width: 72.0,
-              child: Center(child: Text(character.weaponType ?? "")),
-            ),
-            character.weaponType != null
-                ? const CustomVerticalDivider()
-                : const SizedBox.shrink(),
-            SizedBox(
               width: 64.0,
               child: character.rank != null
                   ? Center(child: Text(character.rank ?? ""))

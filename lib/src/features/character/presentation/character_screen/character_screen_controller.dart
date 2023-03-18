@@ -18,7 +18,7 @@ class CharacterScreenController extends _$CharacterScreenController {
   }
 
   Future submitSkillForm() {
-    final character = ref.watch(characterRepositoryProvider);
+    // final character = ref.watch(characterRepositoryProvider);
     return Future.value();
   }
 }

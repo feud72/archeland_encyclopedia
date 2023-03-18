@@ -55,10 +55,12 @@ class CharacterBasicInfoWidget extends StatelessWidget {
             title: '특성',
             skill: character.uniqueSkill,
           ),
-          CharacterSpecialSkillWidget(
-            title: '리더 스킬',
-            skill: character.leaderSkill,
-          ),
+          character.isLeader != null && character.isLeader!
+              ? CharacterSpecialSkillWidget(
+                  title: '리더 스킬',
+                  skill: character.leaderSkill,
+                )
+              : const SizedBox.shrink(),
           CharacterWeaponWidget(title: '전용 무기', weapon: character.weapon),
         ],
       ),
