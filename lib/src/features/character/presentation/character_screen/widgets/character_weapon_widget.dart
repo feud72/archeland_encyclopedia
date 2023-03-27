@@ -1,54 +1,54 @@
-import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtile.dart';
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
-import 'package:archeland_encyclopedia/src/features/artifacts/domain/weapon.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/edit_widgets/edit_weapon_form_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CharacterWeaponWidget extends StatelessWidget {
-  const CharacterWeaponWidget({Key? key, required this.title, this.weapon})
+class CharacterWeaponWidget extends ConsumerWidget {
+  const CharacterWeaponWidget({required this.character, Key? key})
       : super(key: key);
-
-  final String title;
-  final Weapon? weapon;
+  final Character character;
 
   @override
-  Widget build(BuildContext context) {
-    return weapon != null
+  Widget build(BuildContext context, WidgetRef ref) {
+    return character.weapon != null
+        // weapon != null
         ? Padding(
             padding:
                 const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const CustomDivider(),
+                const AppDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      weapon!.name,
+                      character.weapon!.name,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    Text(title),
+                    const Text('전용 무기'),
                   ],
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  '[${weapon!.effectName}]',
+                  '[${character.weapon!.effectName}]',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  weapon!.effectDescription,
+                  character.weapon!.effectDescription,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  weapon!.uniqueEffectDescription != null
-                      ? '[${weapon!.uniqueEffectName}]'
+                  character.weapon!.uniqueEffectDescription != null
+                      ? '[${character.weapon!.uniqueEffectName}]'
                       : "",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  weapon!.uniqueEffectDescription != null
-                      ? "${weapon!.uniqueEffectDescription}"
+                  character.weapon!.uniqueEffectDescription != null
+                      ? "${character.weapon!.uniqueEffectDescription}"
                       : "",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -59,14 +59,10 @@ class CharacterWeaponWidget extends StatelessWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: CustomDivider(),
+                child: AppDivider(),
               ),
-              AskingEditingListTile(
-                  onTap: () {
-                    //Todo : 전용 무기 입력 폼 작성
-                  },
-                  title: "$title 정보가 없습니다.",
-                  subtitle: "데이터를 입력해 주세요."),
+              Container(),
+              EditUniqueWeaponFormWidget(character: character),
             ],
           );
   }

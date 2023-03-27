@@ -29,11 +29,11 @@ class WeaponWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(title),
-                        weapon?.type != null
+                        weapon?.weaponType != null
                             ? const VerticalDivider(color: Colors.transparent)
                             : const SizedBox.shrink(),
-                        weapon?.type != null
-                            ? Text(weapon!.type)
+                        weapon?.weaponType != null
+                            ? Text(weapon!.weaponType)
                             : const SizedBox.shrink(),
                       ],
                     ),

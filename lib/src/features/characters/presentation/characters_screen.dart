@@ -2,48 +2,53 @@ import 'package:archeland_encyclopedia/src/common_widgets/list_items_builder.dar
 import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_screen_controller.dart';
 import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_search_state_provider.dart';
 import 'package:archeland_encyclopedia/src/features/characters/presentation/widgets/character_list_tile.dart';
+import 'package:archeland_encyclopedia/src/features/characters/presentation/widgets/characters_add_new_character_form_widget.dart';
 import 'package:archeland_encyclopedia/src/features/characters/presentation/widgets/characters_search_text_field.dart';
 import 'package:archeland_encyclopedia/src/routing/app_router.dart';
 import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CharactersScreen extends StatelessWidget {
+class CharactersScreen extends ConsumerWidget {
   const CharactersScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = charactersScreenControllerProvider;
+    ref.listen<AsyncValue>(
+        provider, (_, state) => state.showAlertDialogOnError(context));
+    final charactersStream = ref.watch(charactersSearchResultsProvider);
     return Scaffold(
-      appBar: AppBar(title: const CharactersSearchTextField()),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Consumer(
-          builder: (context, ref, child) {
-            ref.listen<AsyncValue>(charactersScreenControllerProvider,
-                (_, state) => state.showAlertDialogOnError(context));
-            final charactersAsyncValue =
-                ref.watch(charactersSearchResultsProvider);
-            // ref.watch(charactersScreenControllerProvider);
-            return ListItemsBuilder(
-              data: charactersAsyncValue,
-              itemBuilder: (context, character) => CharacterListTile(
-                character: character,
-                onTap: () => context.goNamed(AppRoute.character.name,
-                    params: {'id': character.id}),
+      body: Column(
+        children: [
+          const CharactersSearchTextField(),
+          Expanded(
+            child: ListItemsBuilder(
+              data: charactersStream,
+              itemBuilder: (context, character) {
+                return CharacterListTile(
+                  character: character,
+                  onTap: () => context.goNamed(AppRoute.character.name,
+                      params: {'id': character.id}),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: kDebugMode
+          ? FloatingActionButton(
+              mini: true,
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => const CharactersAddNewCharacterForm(),
               ),
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        onPressed: () => context.goNamed(AppRoute.addCharacter.name),
-        child: Icon(
-          Icons.add,
-          color: Colors.grey.shade700,
-        ),
-      ),
+              child: Icon(Icons.add, color: Colors.grey.shade700),
+            )
+          : const SizedBox.shrink(),
     );
   }
 }

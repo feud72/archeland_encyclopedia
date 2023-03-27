@@ -1,6 +1,8 @@
+import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AskingEditingListTile extends StatelessWidget {
+class AskingEditingListTile extends ConsumerWidget {
   const AskingEditingListTile(
       {Key? key,
       required this.onTap,
@@ -10,15 +12,16 @@ class AskingEditingListTile extends StatelessWidget {
 
   final String title;
   final String subtitle;
-  final void Function() onTap;
+  final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.read(authRepositoryProvider).currentUser;
     return ListTile(
-      onTap: onTap,
+      onTap: user != null ? onTap : null,
       title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: const Icon(Icons.edit_note),
+      subtitle: Text(user != null ? subtitle : "로그인 후 작성할 수 있습니다."),
+      trailing: user != null ? const Icon(Icons.edit_note) : null,
     );
   }
 }

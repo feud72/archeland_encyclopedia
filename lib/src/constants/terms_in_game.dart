@@ -23,21 +23,38 @@ class CharacterElement {
 }
 
 class WeaponType {
-  static const spearAndKite = '창&방패';
+  static const gauntlet = '건틀렛';
   static const swordAndKite = '검&방패';
   static const twoHandedSword = '대검';
-  static const oneHandedSword = '한손검';
+  static const magicalDevice = '마법 기구';
+  static const wand = '마법 지팡이';
   static const dagger = '비수';
   static const relic = '성물';
-  static const scepter = '왕홀';
-  static const bow = '활';
   static const swordBow = '소드 보우';
-  static const wand = '마법 지팡이';
-  static const magicalDevice = '마법 기구';
-  static const gauntlet = '건틀렛';
-  static const battleAx = '전투 도끼';
+  static const scepter = '왕홀';
   static const longSpear = '장창';
+  static const battleAx = '전투 도끼';
+  static const spearAndKite = '창&방패';
+  static const oneHandedSword = '한손검';
+  static const bow = '활';
 }
+
+const weaponTypeList = [
+  WeaponType.gauntlet,
+  WeaponType.swordAndKite,
+  WeaponType.twoHandedSword,
+  WeaponType.magicalDevice,
+  WeaponType.wand,
+  WeaponType.dagger,
+  WeaponType.relic,
+  WeaponType.swordBow,
+  WeaponType.scepter,
+  WeaponType.longSpear,
+  WeaponType.battleAx,
+  WeaponType.spearAndKite,
+  WeaponType.oneHandedSword,
+  WeaponType.bow,
+];
 
 final rankList = [
   Rank.ssr,
@@ -61,31 +78,15 @@ final elementList = [
   CharacterElement.darkness,
 ];
 
-final weaponTypeList = [
-  WeaponType.spearAndKite,
-  WeaponType.swordAndKite,
-  WeaponType.twoHandedSword,
-  WeaponType.oneHandedSword,
-  WeaponType.dagger,
-  WeaponType.relic,
-  WeaponType.scepter,
-  WeaponType.bow,
-  WeaponType.swordBow,
-  WeaponType.wand,
-  WeaponType.magicalDevice,
-  WeaponType.gauntlet,
-  WeaponType.battleAx,
-  WeaponType.longSpear,
-]..sort((a, b) => a.compareTo(b));
-
 class RangePrefix {
+  static const String none = '-';
   static const String self = '자신';
   static const String nthBlock = 'n칸';
   static const String cross = '십자 n칸';
-  static const String diamond = '마름모 n칸';
 }
 
 class RadiusPrefix {
+  static const String none = '-';
   static const String single = '단일';
   static const String line = '직선 n칸';
   static const String round = '주변 n바퀴';
@@ -93,6 +94,7 @@ class RadiusPrefix {
 }
 
 class CoolTime {
+  static const String zero = '-';
   static const String one = '1턴';
   static const String two = '2턴';
   static const String three = '3턴';

@@ -13,6 +13,7 @@ class Skill with _$Skill {
     required String? coolTime,
     required String? range,
     required String? radius,
+    required String? position,
   }) = _Skill;
 
   factory Skill.fromJson(Map<String, dynamic> json) => _$SkillFromJson(json);

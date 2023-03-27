@@ -58,3 +58,5 @@ android/app/google-services.json
 # freezed files
 *.freezed.dart
 *.g.dart
+
+android/key.properties

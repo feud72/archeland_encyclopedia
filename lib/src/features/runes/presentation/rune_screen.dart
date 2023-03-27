@@ -41,17 +41,16 @@ class _RuneScreenState extends State<RuneScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: TabBar(
           controller: _tabController,
           tabs: tabs,
           isScrollable: true,
+          indicatorSize: TabBarIndicatorSize.tab,
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        physics: const NeverScrollableScrollPhysics(),
         children: [
           RuneListWidget(controller: _tabController),
           ...runes.map((rune) => RuneWidget(
@@ -59,6 +58,15 @@ class _RuneScreenState extends State<RuneScreen>
                 controller: _tabController,
               )),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        mini: true,
+        tooltip: '룬 리스트 화면으로 이동합니다.',
+        onPressed: () => _tabController.animateTo(0),
+        child: Icon(
+          Icons.home,
+          color: Colors.grey.shade700,
+        ),
       ),
     );
   }
@@ -99,7 +107,7 @@ class RuneListWidget extends StatelessWidget {
                 tileColor: Theme.of(context).primaryColor.withOpacity(0.1),
               ),
             );
-          })
+          }),
         ],
       ),
     );
@@ -121,31 +129,18 @@ class RuneWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Stack(alignment: Alignment.topRight, children: [
-              rune.image != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Image.asset(
-                          rune.image!,
-                          width: 200,
-                          height: 200,
-                        ),
-                      ],
-                    )
-                  : const SizedBox.shrink(),
-              FloatingActionButton(
-                mini: true,
-                tooltip: '룬 리스트 화면으로 이동합니다.',
-                onPressed: () {
-                  controller.animateTo(0);
-                },
-                child: Icon(
-                  Icons.home,
-                  color: Colors.grey.shade700,
-                ),
-              )
-            ]),
+            rune.image != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Image.asset(
+                        rune.image!,
+                        width: 200,
+                        height: 200,
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -156,7 +151,7 @@ class RuneWidget extends StatelessWidget {
                 Text('${rune.type} 타입'),
               ],
             ),
-            const CustomDivider(),
+            const AppDivider(),
             Text(
               '2세트 : ${rune.twoPiecesEffect}',
               style: Theme.of(context).textTheme.bodyLarge,
@@ -170,6 +165,9 @@ class RuneWidget extends StatelessWidget {
             RuneStatusWidget(
               name: rune.name,
               type: rune.type,
+            ),
+            const SizedBox(
+              height: 64,
             ),
           ],
         ),
@@ -198,6 +196,7 @@ class _RuneStatusWidgetState extends State<RuneStatusWidget> {
   @override
   Widget build(BuildContext context) {
     final List<int> countingList = [1, 2, 3, 4, 5, 6];
+    final List<String> romanCharacterList = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
     final runeStatus = RuneRepository.getRuneType(_index, widget.type);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -213,7 +212,7 @@ class _RuneStatusWidgetState extends State<RuneStatusWidget> {
                       style: _index == index
                           ? TextButton.styleFrom()
                           : TextButton.styleFrom(foregroundColor: Colors.grey),
-                      child: Text('${index.toString()} 부위'))),
+                      child: Text(romanCharacterList[index - 1]))),
             )
           ],
         ),
@@ -221,7 +220,7 @@ class _RuneStatusWidgetState extends State<RuneStatusWidget> {
           '주 옵션',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
-        const CustomDivider(),
+        const AppDivider(),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +255,7 @@ class _RuneStatusWidgetState extends State<RuneStatusWidget> {
           '부 옵션',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
-        const CustomDivider(),
+        const AppDivider(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

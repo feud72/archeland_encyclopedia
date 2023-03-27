@@ -8,8 +8,11 @@ part 'characters_search_state_provider.g.dart';
 final charactersSearchQueryStateProvider = StateProvider<String>((ref) => '');
 
 @riverpod
-Future<List<Character>> charactersSearchResults(
+Stream<List<Character>> charactersSearchResults(
     CharactersSearchResultsRef ref) {
   final searchQuery = ref.watch(charactersSearchQueryStateProvider);
-  return ref.watch(charactersListSearchProvider(searchQuery).future);
+  final repository = ref.watch(charactersRepositoryProvider);
+  repository.searchCharacters(searchQuery);
+  return repository.queriedCharacters.stream;
+  // return ref.watch(charactersListSearchProvider(searchQuery).future);
 }

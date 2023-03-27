@@ -1,7 +1,8 @@
 import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtile.dart';
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/skill.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/widgets/edit_skill_modal_bottomsheet.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/edit_widgets/edit_skill_form_widget.dart';
 import 'package:flutter/material.dart';
 
 class CharacterSkillWidget extends StatelessWidget {
@@ -11,8 +12,10 @@ class CharacterSkillWidget extends StatelessWidget {
     required this.title,
     this.level,
     required this.position,
+    required this.character,
   }) : super(key: key);
 
+  final Character character;
   final Skill? skill;
   final String title;
   final int? level;
@@ -22,35 +25,51 @@ class CharacterSkillWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BuildSkillTitleWidget(title: title, level: level),
-        BuildSkillTileWidget(skill: skill, position: position),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: CustomDivider(),
-        ),
+        BuildSkillTitleWidget(
+            title: skill?.name ?? title, cost: skill?.cost, level: level),
+        BuildSkillTileWidget(
+            skill: skill, position: position, character: character),
+        const SizedBox(height: 16.0),
       ],
     );
   }
 }
 
 class BuildSkillTitleWidget extends StatelessWidget {
-  const BuildSkillTitleWidget({Key? key, required this.title, this.level})
+  const BuildSkillTitleWidget(
+      {Key? key, required this.title, this.level, this.cost})
       : super(key: key);
 
   final String title;
   final int? level;
+  final int? cost;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          Text(title, style: Theme.of(context).textTheme.bodyLarge),
-          Text(
-            "Lv. ${level != null ? level.toString() : "조건 없음"}",
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleLarge),
+              Row(
+                children: [
+                  Text(
+                    "◆" * (cost ?? 0),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const AppVerticalDivider(),
+                  Text(
+                    "Lv. ${level != null ? level.toString() : "조건 없음"}",
+                  ),
+                ],
+              ),
+            ],
           ),
+          const AppDivider(),
         ],
       ),
     );
@@ -62,8 +81,10 @@ class BuildSkillTileWidget extends StatelessWidget {
     super.key,
     required this.skill,
     required this.position,
+    required this.character,
   });
 
+  final Character character;
   final Skill? skill;
   final String position;
 
@@ -71,14 +92,8 @@ class BuildSkillTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return skill != null
         ? ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(skill?.name ?? ""),
-                Text("◆" * (skill?.cost ?? 0)),
-              ],
-            ),
             subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -106,9 +121,11 @@ class BuildSkillTileWidget extends StatelessWidget {
             ),
           )
         : AskingEditingListTile(
-            onTap: () => showEditingSkillBottomSheet(
+            onTap: () => showModalBottomSheet(
+                  isScrollControlled: true,
                   context: context,
-                  position: position,
+                  builder: (context) =>
+                      EditSkillForm(position: position, character: character),
                 ),
             title: "스킬 정보가 없습니다.",
             subtitle: "데이터를 입력해 주세요.");

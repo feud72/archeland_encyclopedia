@@ -1,3 +1,4 @@
+import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_search_state_provider.dart';
 import 'package:archeland_encyclopedia/src/routing/app_router.dart';
 import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
@@ -10,6 +11,8 @@ class ArtifactsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authRepositoryProvider).currentUser;
+
     final provider = charactersSearchResultsProvider;
     final charactersAsyncValue = ref.watch(provider);
     ref.listen<AsyncValue>(
@@ -28,11 +31,11 @@ class ArtifactsScreen extends ConsumerWidget {
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 title: const TabBar(
+                  indicatorSize: TabBarIndicatorSize.tab,
                   tabs: tabs,
                 ),
               ),
               body: const TabBarView(
-                physics: NeverScrollableScrollPhysics(),
                 children: [
                   Center(child: Text('무기')),
                   Center(child: Text('투구')),
@@ -40,10 +43,13 @@ class ArtifactsScreen extends ConsumerWidget {
                   Center(child: Text('장신구')),
                 ],
               ),
-              floatingActionButton: FloatingActionButton(
-                  mini: true,
-                  onPressed: () => context.goNamed(AppRoute.addCharacter.name),
-                  child: const Icon(Icons.add)),
+              floatingActionButton: user != null
+                  ? FloatingActionButton(
+                      mini: true,
+                      onPressed: () =>
+                          context.goNamed(AppRoute.addCharacter.name),
+                      child: const Icon(Icons.add))
+                  : const SizedBox.shrink(),
             ),
           );
         },

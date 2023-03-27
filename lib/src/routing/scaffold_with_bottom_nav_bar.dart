@@ -3,20 +3,22 @@ import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
 import 'package:archeland_encyclopedia/src/routing/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ScaffoldWithBottomNavBar extends StatefulWidget {
+class ScaffoldWithBottomNavBar extends ConsumerStatefulWidget {
   final Widget child;
 
   const ScaffoldWithBottomNavBar({Key? key, required this.child})
       : super(key: key);
 
   @override
-  State<ScaffoldWithBottomNavBar> createState() =>
+  ConsumerState<ScaffoldWithBottomNavBar> createState() =>
       _ScaffoldWithBottomNavBarState();
 }
 
-class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
+class _ScaffoldWithBottomNavBarState
+    extends ConsumerState<ScaffoldWithBottomNavBar> {
   int _selectedIndex = 0;
 
   void _tap(BuildContext context, int index) {
@@ -38,7 +40,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
         context.goNamed(AppRoute.rune.name);
         break;
       case 4:
-        context.goNamed(AppRoute.account.name);
+        context.goNamed(AppRoute.signIn.name);
         break;
     }
   }

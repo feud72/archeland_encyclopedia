@@ -24,14 +24,21 @@ Future<bool?> showAlertDialog({
         content: content != null ? Text(content) : null,
         actions: <Widget>[
           if (cancelActionText != null)
-            TextButton(
-              child: Text(cancelActionText),
+            ElevatedButton(
               onPressed: () => Navigator.of(context).pop(false),
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: ThemeData().colorScheme.onPrimary,
+                  backgroundColor:
+                      ThemeData().colorScheme.errorContainer.withOpacity(0.8)),
+              child: Text(cancelActionText),
             ),
-          TextButton(
+          ElevatedButton(
             key: kDialogDefaultKey,
-            child: Text(defaultActionText),
             onPressed: () => Navigator.of(context).pop(true),
+            // style: TextButton.styleFrom(
+            //     foregroundColor: Theme.of(context).canvasColor,
+            //     backgroundColor: Theme.of(context).primaryColorDark),
+            child: Text(defaultActionText),
           ),
         ],
       ),

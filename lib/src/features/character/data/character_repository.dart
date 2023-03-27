@@ -12,9 +12,18 @@ class CharacterRepository {
 
   static String characterPath(String characterId) => 'characters/$characterId';
 
-  Future<void> updateCharacter(
-          {required UserId uid, required Character character}) =>
-      _firestore.doc(characterPath(character.id)).update(character.toJson());
+  Future<Character> updateCharacter(
+      {required UserId uid, required Character character}) async {
+    await _firestore
+        .doc(characterPath(character.id))
+        .update(character.toJson());
+    return character;
+  }
+
+  Future<Character> fetchCharacter({required CharacterId characterId}) async {
+    final reference = await _firestore.doc(characterPath(characterId)).get();
+    return Character.fromJson(reference.data()!);
+  }
 
   Stream<Character> watchCharacter({required CharacterId characterId}) =>
       _firestore
@@ -31,10 +40,3 @@ class CharacterRepository {
 @Riverpod(keepAlive: true)
 CharacterRepository characterRepository(CharacterRepositoryRef ref) =>
     CharacterRepository(FirebaseFirestore.instance);
-
-@riverpod
-Stream<Character> characterStream(
-    CharacterStreamRef ref, CharacterId characterId) {
-  final repository = ref.watch(characterRepositoryProvider);
-  return repository.watchCharacter(characterId: characterId);
-}

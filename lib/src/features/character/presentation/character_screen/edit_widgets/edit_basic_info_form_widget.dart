@@ -1,8 +1,6 @@
 import 'package:archeland_encyclopedia/src/constants/color_schemes.dart';
 import 'package:archeland_encyclopedia/src/constants/terms_in_game.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_screen_controller.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/edit_character_screen/edit_character_status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,33 +39,6 @@ class _EditBasicInfoFormWidgetState
         _character.element = character.element;
         _character.weaponType = character.weaponType;
       });
-    }
-  }
-
-  bool _validateAndSaveForm() {
-    final form = _formKey.currentState!;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
-
-  void _submit() {
-    if (_validateAndSaveForm()) {
-      final success = ref
-          .read(editCharacterScreenControllerProvider.notifier)
-          .fillBasicInfo(
-            name: _character.name!,
-            rank: _character.rank,
-            job: _character.job,
-            element: _character.element,
-            weaponType: _character.weaponType,
-          );
-      if (success && mounted) {
-        // context.pop();
-        debugPrint(ref.read(newCharacterProvider.notifier).state.toString());
-      }
     }
   }
 

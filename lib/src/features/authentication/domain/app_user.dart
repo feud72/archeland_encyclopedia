@@ -8,7 +8,6 @@ typedef UserId = String;
 @freezed
 class AppUser with _$AppUser {
   const factory AppUser({
-    required String uid,
     String? server,
     String? username,
   }) = _AppUser;

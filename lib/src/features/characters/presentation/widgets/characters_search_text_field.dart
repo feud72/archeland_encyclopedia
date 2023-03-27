@@ -22,34 +22,40 @@ class _CharactersSearchTextFieldState
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-        valueListenable: _controller,
-        builder: (context, value, _) {
-          return TextField(
-            controller: _controller,
-            maxLines: 1,
-            maxLength: 15,
-            autofocus: false,
-            decoration: InputDecoration(
-              icon: const Icon(Icons.search),
-              labelText: '검색',
-              hintText: '이름, 특성, 스킬 등을 입력하세요.',
-              suffixIcon: value.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _controller.clear();
-                        ref
-                            .read(charactersSearchQueryStateProvider.notifier)
-                            .state = '';
-                      },
-                      icon: const Icon(Icons.clear),
-                    )
-                  : null,
-            ),
-            onChanged: (text) => ref
-                .read(charactersSearchQueryStateProvider.notifier)
-                .state = text,
-          );
-        });
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ValueListenableBuilder(
+          valueListenable: _controller,
+          builder: (context, value, _) {
+            return TextField(
+              controller: _controller,
+              maxLines: 1,
+              maxLength: 15,
+              autofocus: false,
+              decoration: InputDecoration(
+                isDense: true,
+                counterText: "",
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search),
+                labelText: '검색',
+                hintText: '이름, 특성, 스킬 등을 입력하세요.',
+                suffixIcon: value.text.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _controller.clear();
+                          ref
+                              .read(charactersSearchQueryStateProvider.notifier)
+                              .state = '';
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
+              ),
+              onChanged: (text) => ref
+                  .read(charactersSearchQueryStateProvider.notifier)
+                  .state = text,
+            );
+          }),
+    );
   }
 }

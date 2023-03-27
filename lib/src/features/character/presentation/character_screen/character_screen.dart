@@ -1,9 +1,9 @@
 import 'package:archeland_encyclopedia/src/constants/color_schemes.dart';
-import 'package:archeland_encyclopedia/src/features/character/data/character_repository.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/widgets/character_basic_info_widget.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/widgets/character_skill_list_widget.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/widgets/character_status_widget.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/character_screen_controller.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/pages/character_info_page.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/pages/character_skill_page.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/pages/character_status_page.dart';
 import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,10 +16,9 @@ class CharacterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = characterStreamProvider(characterId);
-    final characterAsyncValue = ref.watch(provider);
-    ref.listen<AsyncValue>(
-        provider, (_, state) => state.showAlertDialogOnError(context));
+    final characterAsyncValue = ref.watch(characterStreamProvider(characterId));
+    ref.listen<AsyncValue>(characterScreenControllerProvider,
+        (_, state) => state.showAlertDialogOnError(context));
     return characterAsyncValue.when(
         data: (character) {
           const List<Tab> tabs = <Tab>[
@@ -43,14 +42,15 @@ class CharacterScreen extends ConsumerWidget {
                 appBar: AppBar(
                   title: Text(character.name),
                   bottom: const TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
                     tabs: tabs,
                   ),
                 ),
                 body: TabBarView(
                   children: [
-                    CharacterStatusWidget(character: character),
-                    CharacterBasicInfoWidget(character: character),
-                    CharacterSkillListWidget(character: character),
+                    CharacterStatusPage(character: character),
+                    CharacterInfoPage(character: character),
+                    CharacterSkillPage(character: character),
                   ],
                 ),
               ),

@@ -13,7 +13,8 @@ part 'characters_repository.g.dart';
 
 class CharactersRepository {
   CharactersRepository(this._dataSource);
-  final characters = InMemoryStore<List<Character>?>(null);
+  final characters = InMemoryStore<List<Character>>([]);
+  final queriedCharacters = InMemoryStore<List<Character>>([]);
   final character = InMemoryStore<Character?>(null);
 
   final FirestoreDataSource _dataSource;
@@ -26,19 +27,9 @@ class CharactersRepository {
       path: FirestorePath.characters(),
       builder: (data, documentId) => Character.fromJson(data!),
     );
+    queriedCharacters.value = characters.value;
     return Future.value(null);
   }
-
-  Stream<Character> watchCharacter({required CharacterId id}) {
-    return InMemoryStore<Character>(
-            characters.value!.singleWhere((character) => character.id == id))
-        .stream;
-  }
-  // =>
-  // _dataSource.watchDocument(
-  //   path: FirestorePath.character(id),
-  //   builder: (data, documentId) => Character.fromJson(data!),
-  // );
 
   Stream<List<Character>> watchCharacters() {
     return _dataSource.watchCollection(
@@ -48,11 +39,29 @@ class CharactersRepository {
   }
 
   Future<List<Character>> fetchCharacters() async {
-    characters.value ??= await _dataSource.fetchCollection(
-      path: FirestorePath.characters(),
+    if (characters.value.isEmpty) {
+      characters.value = await _dataSource.fetchCollection(
+        path: FirestorePath.characters(),
+        builder: (data, documentId) => Character.fromJson(data!),
+      );
+    }
+    return characters.value;
+  }
+
+  Future<void> makeCharacterList() async {
+    final List<Character> characters = await _dataSource.fetchCollection(
+      path: '/characters',
       builder: (data, documentId) => Character.fromJson(data!),
     );
-    return Future.value(characters.value);
+    for (var character in characters) {
+      final updated = character.copyWith(skill: []);
+      await _dataSource.setData(
+          path: 'characters/${updated.id}', data: updated.toJson());
+    }
+    // await _dataSource.setData(
+    //     path: 'characterList/$id',
+    //     data: CharacterList(id: id, characters: characters).toJson());
+    // return characters;
   }
 
   bool _checkPropertyExistAndContain(String? property, String query) {
@@ -65,10 +74,14 @@ class CharactersRepository {
         _checkPropertyExistAndContain(skill.description, query);
   }
 
-  bool _searchSkillQuery(Skill? skill, String query) {
+  bool _searchSkillQuery(List<Skill?>? skill, String query) {
     if (skill == null) return false;
-    return _checkPropertyExistAndContain(skill.name, query) ||
-        _checkPropertyExistAndContain(skill.description, query);
+    if (skill.isEmpty) return false;
+    for (Skill? element in skill) {
+      return _checkPropertyExistAndContain(element?.name, query) ||
+          _checkPropertyExistAndContain(element?.description, query);
+    }
+    return false;
   }
 
   bool _searchWeaponQuery(Weapon? weapon, String query) {
@@ -82,42 +95,30 @@ class CharactersRepository {
 
   Future<List<Character>> searchCharacters(String query) async {
     final charactersList = await fetchCharacters();
-    return charactersList
+    final queriedCharacterList = charactersList
         .where(
           (character) =>
               _checkPropertyExistAndContain(character.name, query) ||
               _searchSpecialSkillQuery(character.uniqueSkill, query) ||
               _searchSpecialSkillQuery(character.leaderSkill, query) ||
-              _searchSkillQuery(character.baseSkill, query) ||
-              _searchSkillQuery(character.ultimate, query) ||
-              _searchSkillQuery(character.upperFirst, query) ||
-              _searchSkillQuery(character.upperSecond, query) ||
-              _searchSkillQuery(character.middleFirst, query) ||
-              _searchSkillQuery(character.middleSecond, query) ||
-              _searchSkillQuery(character.lowerFirst, query) ||
-              _searchSkillQuery(character.lowerSecond, query) ||
+              _searchSkillQuery(character.skill, query) ||
               _searchWeaponQuery(character.weapon, query) ||
               _checkPropertyExistAndContain(character.element, query),
         )
         .toList();
+    queriedCharacters.value = queriedCharacterList;
+    return queriedCharacterList;
   }
 }
 
 @riverpod
-CharactersRepository charactersRemoteRepository(
-    CharactersRemoteRepositoryRef ref) {
+CharactersRepository charactersRepository(CharactersRepositoryRef ref) {
   return CharactersRepository(ref.watch(firestoreDataSourceProvider));
 }
 
 @riverpod
 Future<List<Character>> charactersListSearch(
     CharactersListSearchRef ref, String query) async {
-  final repository = ref.watch(charactersRemoteRepositoryProvider);
+  final repository = ref.watch(charactersRepositoryProvider);
   return repository.searchCharacters(query);
 }
-//
-// final characterStreamProvider = StreamProvider.autoDispose
-//     .family<Character, CharacterId>((ref, characterId) {
-//   final database = ref.watch(charactersRemoteRepositoryProvider);
-//   return database.watchCharacter(id: characterId);
-// });

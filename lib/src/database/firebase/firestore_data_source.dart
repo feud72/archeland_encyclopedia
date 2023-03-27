@@ -8,19 +8,24 @@ String documentIdFromCurrentDate() {
 
 class FirestorePath {
   static String character(String id) => 'characters/$id';
-  static String characters() => 'characters';
+  static String characters() => 'characters/';
 }
 
 class FirestoreDataSource {
   const FirestoreDataSource._();
 
-  Future<void> setData({
+  Future<bool> setData({
     required String path,
     required Map<String, dynamic> data,
     bool merge = false,
   }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    await reference.set(data, SetOptions(merge: merge));
+    try {
+      final reference = FirebaseFirestore.instance.doc(path);
+      await reference.set(data, SetOptions(merge: merge));
+      return Future.value(true);
+    } catch (e) {
+      return Future.value(false);
+    }
   }
 
   Future<void> deleteData({required String path}) async {

@@ -1,5 +1,6 @@
 import 'package:archeland_encyclopedia/firebase_options.dart';
 import 'package:archeland_encyclopedia/src/app.dart';
+import 'package:archeland_encyclopedia/src/database/hive/hive_repository.dart';
 import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,16 +8,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   const Settings(persistenceEnabled: true);
+  await Hive.initFlutter();
   MobileAds.instance.initialize();
-  // final localRepository = await LocalRepository.makeDefault();
+  final hiveRepository = HiveRepository();
+  await hiveRepository.init();
   final container = ProviderContainer(
     overrides: [
-      // localRepositoryProvider.overrideWithValue(localRepository),
+      hiveRepositoryProvider.overrideWithValue(hiveRepository),
     ],
   );
   runApp(UncontrolledProviderScope(

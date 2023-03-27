@@ -8,7 +8,7 @@ class Weapon with _$Weapon {
   const factory Weapon({
     required String name,
     String? subName,
-    required String type,
+    required String weaponType,
     required String effectName,
     required String effectDescription,
     String? uniqueEffectName,

@@ -21,7 +21,7 @@ class CharacterSpecialSkillWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const CustomDivider(),
+                const AppDivider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -44,7 +44,7 @@ class CharacterSpecialSkillWidget extends StatelessWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: CustomDivider(),
+                child: AppDivider(),
               ),
               AskingEditingListTile(
                   onTap: () {

@@ -12,15 +12,16 @@ class CharacterListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.transparent,
-                elementColor[character.element]!.withAlpha(70),
-              ])),
+      decoration: elementColor[character.element] != null
+          ? BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                  Colors.transparent,
+                  elementColor[character.element]!.withAlpha(70),
+                ]))
+          : null,
       child: ListTile(
         title: Text(character.name),
         subtitle: Text(character.uniqueSkill?.name ?? ""),
@@ -30,16 +31,24 @@ class CharacterListTile extends StatelessWidget {
             SizedBox(
               width: 64.0,
               child: character.job != null
-                  ? Center(child: Text(character.job ?? ""))
+                  ? Center(
+                      child: Text(
+                      character.job ?? "",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ))
                   : const SizedBox.shrink(),
             ),
             character.job != null
-                ? const CustomVerticalDivider()
+                ? const AppVerticalDivider()
                 : const SizedBox.shrink(),
             SizedBox(
               width: 64.0,
               child: character.rank != null
-                  ? Center(child: Text(character.rank ?? ""))
+                  ? Center(
+                      child: Text(
+                      character.rank ?? "",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ))
                   : const SizedBox.shrink(),
             ),
           ],

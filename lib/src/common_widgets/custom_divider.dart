@@ -9,8 +9,8 @@ class CustomTransparentDivider extends StatelessWidget {
   }
 }
 
-class CustomDivider extends StatelessWidget {
-  const CustomDivider({Key? key}) : super(key: key);
+class AppDivider extends StatelessWidget {
+  const AppDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class CustomDivider extends StatelessWidget {
   }
 }
 
-class CustomVerticalDivider extends StatelessWidget {
-  const CustomVerticalDivider({Key? key}) : super(key: key);
+class AppVerticalDivider extends StatelessWidget {
+  const AppVerticalDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
