@@ -1,3 +1,4 @@
+import 'package:archeland_encyclopedia/src/common_widgets/alert_dialogs.dart';
 import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtile.dart';
 import 'package:archeland_encyclopedia/src/constants/terms_in_game.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
@@ -7,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class EditUniqueWeaponFormWidget extends StatelessWidget {
-  const EditUniqueWeaponFormWidget({Key? key, required this.character})
+class CharacterWeaponFormWidget extends StatelessWidget {
+  const CharacterWeaponFormWidget({Key? key, required this.character})
       : super(key: key);
   final Character character;
 
@@ -117,7 +118,15 @@ class _EditWeaponFormState extends ConsumerState<EditWeaponForm> {
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () => context.pop(),
+                                    onPressed: () async {
+                                      final result = await showAlertDialog(
+                                          title: '취소',
+                                          content: '작성을 취소하고 나가시겠습니까?',
+                                          cancelActionText: '취소',
+                                          context: context);
+                                      if (!mounted) return;
+                                      return result! ? context.pop() : null;
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         foregroundColor:
                                             ThemeData().colorScheme.onPrimary,

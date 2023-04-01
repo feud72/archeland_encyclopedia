@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Job {
   static const tanker = '탱커';
   static const warrior = '워리어';
@@ -6,6 +8,45 @@ class Job {
   static const priest = '프리스트';
   static const ranger = '레인저';
 }
+
+Map<String, Image> jobIcon = {
+  '탱커': Image.asset(
+    'assets/images/icons/tanker.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+  '워리어': Image.asset(
+    'assets/images/icons/warrior.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+  '슈터': Image.asset(
+    'assets/images/icons/shooter.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+  '메이지': Image.asset(
+    'assets/images/icons/mage.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+  '프리스트': Image.asset(
+    'assets/images/icons/priest.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+  '레인저': Image.asset(
+    'assets/images/icons/ranger.png',
+    height: 20,
+    width: 20,
+    color: const Color(0xFF001E30),
+  ),
+};
 
 class Rank {
   static const ssr = 'SSR';
@@ -89,8 +130,10 @@ class RadiusPrefix {
   static const String none = '-';
   static const String single = '단일';
   static const String line = '직선 n칸';
+  static const String threeByFour = '직선 4X3칸';
   static const String round = '주변 n바퀴';
   static const String diamond = '마름모 n칸';
+  static const String entire = '모든 전장';
 }
 
 class CoolTime {
@@ -105,6 +148,7 @@ class Type {
   static const String pAtk = "물리 피해";
   static const String mAtk = "마법 피해";
   static const String passive = "패시브";
+  static const String active = "액티브";
   static const String support = "지원";
   static const String heal = "치유";
 }

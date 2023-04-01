@@ -2,7 +2,7 @@ import 'package:archeland_encyclopedia/src/common_widgets/asking_editing_listtil
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/skill.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/edit_widgets/edit_skill_form_widget.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/forms/character_skill_form_widget.dart';
 import 'package:flutter/material.dart';
 
 class CharacterSkillWidget extends StatelessWidget {
@@ -124,8 +124,8 @@ class BuildSkillTileWidget extends StatelessWidget {
             onTap: () => showModalBottomSheet(
                   isScrollControlled: true,
                   context: context,
-                  builder: (context) =>
-                      EditSkillForm(position: position, character: character),
+                  builder: (context) => CharacterSkillForm(
+                      position: position, character: character),
                 ),
             title: "스킬 정보가 없습니다.",
             subtitle: "데이터를 입력해 주세요.");

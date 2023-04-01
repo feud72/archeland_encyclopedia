@@ -1,3 +1,4 @@
+import 'package:archeland_encyclopedia/src/common_widgets/alert_dialogs.dart';
 import 'package:archeland_encyclopedia/src/constants/terms_in_game.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
 import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/character_screen_controller.dart';
@@ -6,18 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class EditSkillForm extends ConsumerStatefulWidget {
-  const EditSkillForm(
+class CharacterSkillForm extends ConsumerStatefulWidget {
+  const CharacterSkillForm(
       {Key? key, required this.character, required this.position})
       : super(key: key);
   final String position;
   final Character character;
 
   @override
-  ConsumerState<EditSkillForm> createState() => _EditSkillFormState();
+  ConsumerState<CharacterSkillForm> createState() => _CharacterSkillFormState();
 }
 
-class _EditSkillFormState extends ConsumerState<EditSkillForm> {
+class _CharacterSkillFormState extends ConsumerState<CharacterSkillForm> {
   late String position;
   late String? name;
   int cost = 1;
@@ -72,6 +73,12 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
           break;
         case RadiusPrefix.diamond:
           radiusText = '마름모 $radius';
+          break;
+        case RadiusPrefix.entire:
+          radiusText = RadiusPrefix.entire;
+          break;
+        case RadiusPrefix.threeByFour:
+          radiusText = RadiusPrefix.threeByFour;
           break;
       }
       final success = await ref
@@ -132,7 +139,15 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () => context.pop(),
+                                    onPressed: () async {
+                                      final result = await showAlertDialog(
+                                          title: '취소',
+                                          content: '작성을 취소하고 나가시겠습니까?',
+                                          cancelActionText: '취소',
+                                          context: context);
+                                      if (!mounted) return;
+                                      return result! ? context.pop() : null;
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         foregroundColor:
                                             ThemeData().colorScheme.onPrimary,
@@ -186,6 +201,12 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
                                       value: Type.mAtk,
                                       child: Center(
                                         child: Text(Type.mAtk),
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: Type.active,
+                                      child: Center(
+                                        child: Text(Type.active),
                                       ),
                                     ),
                                     DropdownMenuItem(
@@ -398,6 +419,10 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
                                       child: Text(RadiusPrefix.line),
                                     ),
                                     DropdownMenuItem(
+                                      value: RadiusPrefix.threeByFour,
+                                      child: Text(RadiusPrefix.threeByFour),
+                                    ),
+                                    DropdownMenuItem(
                                       value: RadiusPrefix.round,
                                       child: Text(RadiusPrefix.round),
                                     ),
@@ -405,12 +430,19 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
                                       value: RadiusPrefix.diamond,
                                       child: Text(RadiusPrefix.diamond),
                                     ),
+                                    DropdownMenuItem(
+                                      value: RadiusPrefix.entire,
+                                      child: Text(RadiusPrefix.entire),
+                                    ),
                                   ],
                                   onChanged: (String? value) {
                                     setState(() {
                                       radiusPrefix = value!;
                                       if (radiusPrefix == RadiusPrefix.single ||
-                                          radiusPrefix == RadiusPrefix.none) {
+                                          radiusPrefix == RadiusPrefix.none ||
+                                          radiusPrefix ==
+                                              RadiusPrefix.threeByFour ||
+                                          radiusPrefix == RadiusPrefix.entire) {
                                         radius = null;
                                       }
                                     });
@@ -419,7 +451,10 @@ class _EditSkillFormState extends ConsumerState<EditSkillForm> {
                               ),
                               SizedBox(
                                   width: (radiusPrefix == RadiusPrefix.none ||
-                                          radiusPrefix == RadiusPrefix.single)
+                                          radiusPrefix == RadiusPrefix.single ||
+                                          radiusPrefix ==
+                                              RadiusPrefix.threeByFour ||
+                                          radiusPrefix == RadiusPrefix.entire)
                                       ? 0
                                       : 16),
                               radiusPrefix == RadiusPrefix.diamond ||

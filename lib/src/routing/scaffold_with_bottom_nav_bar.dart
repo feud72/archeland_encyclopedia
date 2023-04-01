@@ -34,10 +34,10 @@ class _ScaffoldWithBottomNavBarState
         context.goNamed(AppRoute.artifacts.name);
         break;
       case 2:
-        context.goNamed(AppRoute.land.name);
+        context.goNamed(AppRoute.rune.name);
         break;
       case 3:
-        context.goNamed(AppRoute.rune.name);
+        context.goNamed(AppRoute.land.name);
         break;
       case 4:
         context.goNamed(AppRoute.signIn.name);
@@ -73,9 +73,9 @@ class _ScaffoldWithBottomNavBarState
           BottomNavigationBarItem(
               icon: const Icon(Icons.shield), label: '장비'.hardcoded),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.castle), label: '약속의 땅'.hardcoded),
-          BottomNavigationBarItem(
               icon: const Icon(Icons.hexagon_outlined), label: '룬'.hardcoded),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.castle), label: '약속의 땅'.hardcoded),
           BottomNavigationBarItem(
               icon: const Icon(Icons.manage_accounts), label: '계정'.hardcoded),
         ],

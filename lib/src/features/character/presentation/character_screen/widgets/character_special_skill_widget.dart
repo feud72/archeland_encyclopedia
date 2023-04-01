@@ -48,7 +48,7 @@ class CharacterSpecialSkillWidget extends StatelessWidget {
               ),
               AskingEditingListTile(
                   onTap: () {
-                    //Todo: 리더 스킬 및 특성 입력 폼 작성
+                    //Todo: 리더스킬 입력 폼 작성
                   },
                   title: "$title 정보가 없습니다.",
                   subtitle: "데이터를 입력해 주세요."),

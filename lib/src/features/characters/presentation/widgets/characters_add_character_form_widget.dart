@@ -1,3 +1,4 @@
+import 'package:archeland_encyclopedia/src/common_widgets/alert_dialogs.dart';
 import 'package:archeland_encyclopedia/src/constants/color_schemes.dart';
 import 'package:archeland_encyclopedia/src/constants/terms_in_game.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
@@ -7,19 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CharactersAddNewCharacterForm extends ConsumerStatefulWidget {
-  const CharactersAddNewCharacterForm({Key? key, this.id, this.character})
+class CharactersAddCharacterForm extends ConsumerStatefulWidget {
+  const CharactersAddCharacterForm({Key? key, this.id, this.character})
       : super(key: key);
   final CharacterId? id;
   final Character? character;
 
   @override
-  ConsumerState<CharactersAddNewCharacterForm> createState() =>
-      _CharactersAddNewCharacterFormState();
+  ConsumerState<CharactersAddCharacterForm> createState() =>
+      _CharactersAddCharacterFormState();
 }
 
-class _CharactersAddNewCharacterFormState
-    extends ConsumerState<CharactersAddNewCharacterForm> {
+class _CharactersAddCharacterFormState
+    extends ConsumerState<CharactersAddCharacterForm> {
   String? name;
   String? rank;
   String? job;
@@ -98,7 +99,15 @@ class _CharactersAddNewCharacterFormState
                             Row(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () => context.pop(),
+                                  onPressed: () async {
+                                    final result = await showAlertDialog(
+                                        title: '취소',
+                                        content: '작성을 취소하고 나가시겠습니까?',
+                                        cancelActionText: '취소',
+                                        context: context);
+                                    if (!mounted) return;
+                                    return result! ? context.pop() : null;
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       foregroundColor:
                                           ThemeData().colorScheme.onPrimary,

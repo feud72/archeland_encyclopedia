@@ -1,8 +1,8 @@
-import 'package:archeland_encyclopedia/src/features/artifacts/domain/weapon.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
 import 'package:archeland_encyclopedia/src/features/character/data/character_repository.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/skill.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/unique_weapon.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'character_screen_controller.g.dart';
@@ -11,6 +11,11 @@ part 'character_screen_controller.g.dart';
 class CharacterScreenController extends _$CharacterScreenController {
   @override
   FutureOr<void> build() async {}
+
+  Stream<Character> characterStream(CharacterId characterId) {
+    final repository = ref.read(characterRepositoryProvider);
+    return repository.watchCharacter(characterId: characterId);
+  }
 
   Future submitSkillForm({
     required Character character,
@@ -65,7 +70,7 @@ class CharacterScreenController extends _$CharacterScreenController {
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user != null) {
       final uid = user.uid;
-      final weapon = Weapon(
+      final weapon = UniqueWeapon(
         name: name,
         weaponType: weaponType,
         effectName: effectName,
@@ -87,6 +92,7 @@ class CharacterScreenController extends _$CharacterScreenController {
 @riverpod
 Stream<Character> characterStream(
     CharacterStreamRef ref, CharacterId characterId) {
-  final repository = ref.watch(characterRepositoryProvider);
-  return repository.watchCharacter(characterId: characterId);
+  return ref
+      .watch(characterScreenControllerProvider.notifier)
+      .characterStream(characterId);
 }

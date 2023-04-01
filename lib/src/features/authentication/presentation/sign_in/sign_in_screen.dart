@@ -19,7 +19,9 @@ class SignInScreen extends ConsumerWidget {
     final user = ref.watch(signInScreenControllerProvider.notifier).user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("로그인"),
+        title: user != null
+            ? Text('${user.displayName} 님, 반갑습니다.')
+            : const Text("로그인"),
       ),
       body: Container(
         foregroundDecoration: state.isLoading
@@ -30,7 +32,7 @@ class SignInScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const NotificationWidget(),
-            const Expanded(child: SizedBox()),
+            const SizedBox(height: 16),
             user == null
                 ? const SignInButtonWidget()
                 : const SignOutButtonWidget(),

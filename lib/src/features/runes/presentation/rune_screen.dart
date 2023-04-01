@@ -1,7 +1,10 @@
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
 import 'package:archeland_encyclopedia/src/features/runes/data/rune_repository.dart';
 import 'package:archeland_encyclopedia/src/features/runes/domain/rune.dart';
+import 'package:archeland_encyclopedia/src/features/search/query_provider.dart';
+import 'package:archeland_encyclopedia/src/features/search/search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RuneScreen extends StatefulWidget {
   const RuneScreen({Key? key}) : super(key: key);
@@ -40,50 +43,66 @@ class _RuneScreenState extends State<RuneScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TabBar(
-          controller: _tabController,
-          tabs: tabs,
-          isScrollable: true,
-          indicatorSize: TabBarIndicatorSize.tab,
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          RuneListWidget(controller: _tabController),
-          ...runes.map((rune) => RuneWidget(
-                rune: rune,
+    return Column(
+      children: [
+        const SearchTextField(),
+        Expanded(
+          child: Scaffold(
+            appBar: AppBar(
+              title: TabBar(
                 controller: _tabController,
-              )),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        tooltip: '룬 리스트 화면으로 이동합니다.',
-        onPressed: () => _tabController.animateTo(0),
-        child: Icon(
-          Icons.home,
-          color: Colors.grey.shade700,
+                tabs: tabs,
+                isScrollable: true,
+                indicatorSize: TabBarIndicatorSize.tab,
+              ),
+            ),
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                RuneListWidget(controller: _tabController),
+                ...runes.map((rune) => RuneWidget(
+                      rune: rune,
+                      controller: _tabController,
+                    )),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              mini: true,
+              tooltip: '룬 리스트 화면으로 이동합니다.',
+              onPressed: () => _tabController.animateTo(0),
+              child: Icon(
+                Icons.home,
+                color: Colors.grey.shade700,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
 
-class RuneListWidget extends StatelessWidget {
+class RuneListWidget extends ConsumerWidget {
   const RuneListWidget({Key? key, required this.controller}) : super(key: key);
 
   final TabController controller;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final query = ref.watch(queryProvider);
+
     final runes = RuneRepository.getRunes();
     return SingleChildScrollView(
       child: Column(
         children: [
-          ...runes.map((rune) {
+          ...runes
+              .where(
+            (rune) =>
+                rune.name.contains(query) ||
+                rune.twoPiecesEffect.contains(query) ||
+                rune.fourPiecesEffect.contains(query),
+          )
+              .map((rune) {
             return Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

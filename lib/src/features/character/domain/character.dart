@@ -1,6 +1,6 @@
-import 'package:archeland_encyclopedia/src/features/artifacts/domain/weapon.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/skill.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/special_skill.dart';
+import 'package:archeland_encyclopedia/src/features/character/domain/unique_weapon.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'character.freezed.dart';
@@ -22,7 +22,7 @@ class Character with _$Character {
     bool? isLeader,
     SpecialSkill? leaderSkill,
     List<Skill?>? skill,
-    Weapon? weapon,
+    UniqueWeapon? weapon,
     String? hp,
     String? pAtk,
     String? mAtk,

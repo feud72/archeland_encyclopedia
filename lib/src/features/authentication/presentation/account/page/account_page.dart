@@ -4,7 +4,6 @@ import 'package:archeland_encyclopedia/src/localization/string_hardcoded.dart';
 import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class AccountPage extends ConsumerStatefulWidget {
   const AccountPage({super.key});
@@ -26,8 +25,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
   @override
   void initState() {
     super.initState();
-    username = Hive.box<String>('account').get('username', defaultValue: "")!;
-    server = Hive.box<String>('account').get('server', defaultValue: "")!;
   }
 
   @override
@@ -38,7 +35,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
   }
 
   void _handleServerSubmitted(String value) async {
-    await Hive.box<String>('account').put('server', value);
     setState(() {
       isServerEditingMode = false;
       server = value;
@@ -46,7 +42,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
   }
 
   void _handleNicknameSubmitted(value) async {
-    await Hive.box<String>('account').put('username', value);
     setState(() {
       isNicknameEditingMode = false;
       username = value;

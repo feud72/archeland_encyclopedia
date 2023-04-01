@@ -1,6 +1,6 @@
 import 'package:archeland_encyclopedia/src/common_widgets/custom_divider.dart';
 import 'package:archeland_encyclopedia/src/features/character/domain/character.dart';
-import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/edit_widgets/edit_weapon_form_widget.dart';
+import 'package:archeland_encyclopedia/src/features/character/presentation/character_screen/forms/character_weapon_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -62,7 +62,7 @@ class CharacterWeaponWidget extends ConsumerWidget {
                 child: AppDivider(),
               ),
               Container(),
-              EditUniqueWeaponFormWidget(character: character),
+              CharacterWeaponFormWidget(character: character),
             ],
           );
   }

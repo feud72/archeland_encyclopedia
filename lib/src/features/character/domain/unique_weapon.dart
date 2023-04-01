@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'weapon.freezed.dart';
-part 'weapon.g.dart';
+part 'unique_weapon.freezed.dart';
+part 'unique_weapon.g.dart';
 
 @freezed
-class Weapon with _$Weapon {
-  const factory Weapon({
+class UniqueWeapon with _$UniqueWeapon {
+  const factory UniqueWeapon({
     required String name,
     String? subName,
     required String weaponType,
@@ -13,7 +13,8 @@ class Weapon with _$Weapon {
     required String effectDescription,
     String? uniqueEffectName,
     String? uniqueEffectDescription,
-  }) = _Weapon;
+  }) = _UniqueWeapon;
 
-  factory Weapon.fromJson(Map<String, dynamic> json) => _$WeaponFromJson(json);
+  factory UniqueWeapon.fromJson(Map<String, dynamic> json) =>
+      _$UniqueWeaponFromJson(json);
 }

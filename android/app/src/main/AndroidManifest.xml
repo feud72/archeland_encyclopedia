@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shkim72.archeland_encyclopedia">
    <uses-permission android:name="android.permission.INTERNET"/>
+   <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
    <application
-        android:label="archeland_encyclopedia"
+        android:label="아르케랜드 도감"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

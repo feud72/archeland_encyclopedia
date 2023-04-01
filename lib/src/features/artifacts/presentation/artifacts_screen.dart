@@ -1,10 +1,12 @@
+import 'package:archeland_encyclopedia/src/common_widgets/alert_dialogs.dart';
+import 'package:archeland_encyclopedia/src/features/artifacts/presentation/pages/accessories_page.dart';
+import 'package:archeland_encyclopedia/src/features/artifacts/presentation/pages/armors_page.dart';
+import 'package:archeland_encyclopedia/src/features/artifacts/presentation/pages/helmets_page.dart';
+import 'package:archeland_encyclopedia/src/features/artifacts/presentation/pages/weapons_page.dart';
 import 'package:archeland_encyclopedia/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:archeland_encyclopedia/src/features/characters/presentation/characters_search_state_provider.dart';
-import 'package:archeland_encyclopedia/src/routing/app_router.dart';
-import 'package:archeland_encyclopedia/src/utils/async_value_ui.dart';
+import 'package:archeland_encyclopedia/src/features/search/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class ArtifactsScreen extends ConsumerWidget {
   const ArtifactsScreen({Key? key}) : super(key: key);
@@ -13,19 +15,18 @@ class ArtifactsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authRepositoryProvider).currentUser;
 
-    final provider = charactersSearchResultsProvider;
-    final charactersAsyncValue = ref.watch(provider);
-    ref.listen<AsyncValue>(
-        provider, (_, state) => state.showAlertDialogOnError(context));
-    return charactersAsyncValue.when(
-        data: (character) {
-          const List<Tab> tabs = <Tab>[
-            Tab(text: '무기'),
-            Tab(text: '투구'),
-            Tab(text: '갑옷'),
-            Tab(text: '장신구'),
-          ];
-          return DefaultTabController(
+    const List<Tab> tabs = <Tab>[
+      Tab(text: '무기'),
+      Tab(text: '투구'),
+      Tab(text: '갑옷'),
+      Tab(text: '장신구'),
+    ];
+
+    return Column(
+      children: [
+        const SearchTextField(),
+        Expanded(
+          child: DefaultTabController(
             length: tabs.length,
             child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -37,30 +38,30 @@ class ArtifactsScreen extends ConsumerWidget {
               ),
               body: const TabBarView(
                 children: [
-                  Center(child: Text('무기')),
-                  Center(child: Text('투구')),
-                  Center(child: Text('갑옷')),
-                  Center(child: Text('장신구')),
+                  WeaponsPage(),
+                  HelmetsPage(),
+                  ArmorsPage(),
+                  AccessoriesPage(),
                 ],
               ),
               floatingActionButton: user != null
                   ? FloatingActionButton(
                       mini: true,
-                      onPressed: () =>
-                          context.goNamed(AppRoute.addCharacter.name),
+                      // onPressed: () => showModalBottomSheet(
+                      //       isScrollControlled: true,
+                      //       context: context,
+                      //       builder: (context) => const AddWeaponForm(),
+                      //     ),
+                      onPressed: () => showAlertDialog(
+                          context: context,
+                          title: '알림',
+                          content: '기능을 준비 중입니다.'),
                       child: const Icon(Icons.add))
                   : const SizedBox.shrink(),
             ),
-          );
-        },
-        error: (error, stacktrace) => Center(
-              child: Column(
-                children: [
-                  Text(error.toString()),
-                  Text(stacktrace.toString()),
-                ],
-              ),
-            ),
-        loading: () => const Center(child: CircularProgressIndicator()));
+          ),
+        ),
+      ],
+    );
   }
 }
